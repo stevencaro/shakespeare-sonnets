@@ -2,22 +2,31 @@
 
 from random import randint
 
+import argparse
 import json
 import sys
 
-data = open('sonnets.json')
-sonnets = json.load(data)
+with open('sonnets.json') as data:
+    sonnets = json.load(data)
 
-try:
-    sonnet_number = int(sys.argv[1])
-    if sonnet_number > 0 and sonnet_number < len(sonnets) + 1:
-        pass
-    else:
-        sys.exit()
-except ValueError:
+parser = argparse.ArgumentParser(description = 'Display the sonnets of Shakespeare')
+parser.add_argument('-l', action='store_true', help='list first lines of all 154 sonnets')
+parser.add_argument('-n', type=int , help='number of sonnet to display')
+
+options = parser.parse_args()
+
+if options.l:
+    print('listing sonnets')
+    for num, sonnet in enumerate(sonnets, 1):
+        print ('{:3} {}'.format(num, sonnets[num - 1][0]))
     sys.exit()
-except IndexError:
+
+if options.n is None:
     sonnet_number = randint(0, len(sonnets))
+elif options.n >= 1 and options.n <= 154:
+    sonnet_number = options.n
+else:
+    sys.exit('Select a number from 1 to 154')
 
 print ('\t\tSonnet', sonnet_number,'\n')
 print (sonnets[sonnet_number - 1])
