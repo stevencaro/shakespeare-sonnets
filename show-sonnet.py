@@ -16,7 +16,6 @@ parser.add_argument('-n', type=int , help='number of sonnet to display')
 options = parser.parse_args()
 
 if options.l:
-    print('listing sonnets')
     for num, sonnet in enumerate(sonnets, 1):
         print ('{:3} {}'.format(num, (sonnets[num - 1].partition('\n'))[0]))
     sys.exit()
